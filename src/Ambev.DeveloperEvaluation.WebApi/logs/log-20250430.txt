@@ -1,0 +1,15 @@
+2025-04-30 23:51:36.731 -03:00 [INF] Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckService Health Check enabled at: '/health'
+2025-04-30 23:51:36.839 -03:00 [INF] Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager User profile is available. Using 'C:\Users\ssley\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-04-30 23:51:36.939 -03:00 [INF] Microsoft.Hosting.Lifetime Now listening on: https://localhost:7181
+2025-04-30 23:51:36.942 -03:00 [INF] Microsoft.Hosting.Lifetime Now listening on: http://localhost:5119
+2025-04-30 23:51:36.980 -03:00 [INF] Microsoft.Hosting.Lifetime Application started. Press Ctrl+C to shut down.
+2025-04-30 23:51:36.981 -03:00 [INF] Microsoft.Hosting.Lifetime Hosting environment: Development
+2025-04-30 23:51:36.984 -03:00 [INF] Microsoft.Hosting.Lifetime Content root path: C:\Lab\abi-gth-omnia-developer-evaluation 4 1\template\backend\src\Ambev.DeveloperEvaluation.WebApi
+2025-04-30 23:52:03.791 -03:00 [INF] Microsoft.AspNetCore.Hosting.Diagnostics Request starting HTTP/1.1 POST http://localhost:5119/api/Auth - application/json 47
+2025-04-30 23:52:03.828 -03:00 [INF] Microsoft.AspNetCore.Hosting.Diagnostics Request finished HTTP/1.1 POST http://localhost:5119/api/Auth - 307 0 null 38.6368ms
+2025-04-30 23:52:14.061 -03:00 [INF] Microsoft.AspNetCore.Hosting.Diagnostics Request starting HTTP/1.1 POST http://localhost:5119/api/Auth - application/json 57
+2025-04-30 23:52:14.072 -03:00 [INF] Microsoft.AspNetCore.Hosting.Diagnostics Request finished HTTP/1.1 POST http://localhost:5119/api/Auth - 307 0 null 10.9941ms
+2025-04-30 23:52:51.588 -03:00 [INF] Microsoft.AspNetCore.Hosting.Diagnostics Request starting HTTP/1.1 POST http://localhost:5119/api/Auth - application/json 57
+2025-04-30 23:52:51.598 -03:00 [INF] Microsoft.AspNetCore.Hosting.Diagnostics Request finished HTTP/1.1 POST http://localhost:5119/api/Auth - 307 0 null 9.2716ms
+2025-04-30 23:52:52.294 -03:00 [INF] Microsoft.AspNetCore.Hosting.Diagnostics Request starting HTTP/1.1 POST http://localhost:5119/api/Auth - application/json 57
+2025-04-30 23:52:52.301 -03:00 [INF] Microsoft.AspNetCore.Hosting.Diagnostics Request finished HTTP/1.1 POST http://localhost:5119/api/Auth - 307 0 null 7.2153ms
