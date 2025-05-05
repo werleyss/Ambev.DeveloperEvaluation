@@ -18,5 +18,11 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(p => p.Description).IsRequired().HasMaxLength(2000);
         builder.Property(p => p.Category).IsRequired().HasMaxLength(50);
         builder.Property(p => p.Image).HasMaxLength(2000); 
+        builder.Property(p => p.RatingId);
+        builder.HasIndex(p => p.RatingId).IsUnique();
+
+        builder.HasOne(p => p.Rating)
+               .WithOne(p => p.Product)
+               .HasForeignKey<Rating>(p => p.ProductId);
     }
 }

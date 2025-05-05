@@ -10,8 +10,34 @@
 public class UpdateProductResult
 {
     /// <summary>
-    /// Gets the unique identifier of the newly updated product.
+    /// Indicates whether the update was successful
     /// </summary>
-    /// <value>A GUID that uniquely identifies the updated product in the system.</value>
     public Guid Id { get; set; }
+
+    /// <summary>
+    /// Gets the product's title string.
+    /// Must not be null or empty.
+    /// </summary>
+    public string Title { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the product's price number.
+    /// Must be greater than zero
+    /// </summary>
+    public decimal Price { get; set; }
+
+    /// <summary>
+    /// Gets the product's description string.
+    /// </summary>
+    public string Description { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the product's category string.
+    /// </summary>
+    public string Category { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Gets the product's image string.
+    /// </summary>
+    public string Image { get; set; } = string.Empty;
 }

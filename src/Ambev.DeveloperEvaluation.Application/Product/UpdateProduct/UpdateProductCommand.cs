@@ -25,7 +25,7 @@ public class UpdateProductCommand : IRequest<UpdateProductResult>
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Gets the product's string.
+    /// Gets the product's title string.
     /// Must not be null or empty.
     /// </summary>
     public string Title { get; set; } = string.Empty;
