@@ -54,6 +54,12 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// </summary>
         public DateTime? UpdatedAt { get; set; }
 
+        public Product()
+        {
+            CreatedAt = DateTime.Now;
+            Rating = new Rating();
+        }
+
         /// <summary>
         /// Performs validation of the product entity using the ProductValidator rules.
         /// </summary>
