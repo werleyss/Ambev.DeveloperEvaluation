@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
@@ -20,7 +21,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
 public class CreateProductCommand : IRequest<CreateProductResult>
 {
     /// <summary>
-    /// Gets the product's string number.
+    /// Gets the product's title string.
     /// Must not be null or empty.
     /// </summary>
     public string Title { get; set; } = string.Empty;

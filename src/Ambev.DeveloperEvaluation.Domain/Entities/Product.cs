@@ -35,16 +35,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public string Image { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets the product's ratingid guid.
-        /// </summary>
-        public Guid RatingId { get; set; }
-
-        /// <summary>
-        /// Gets the product's rating reference.
-        /// </summary>
-        public Rating Rating { get; set; }
-
-        /// <summary>
         /// Gets the date and time when the product was created.
         /// </summary>
         public DateTime CreatedAt { get; set; }
@@ -57,7 +47,6 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public Product()
         {
             CreatedAt = DateTime.Now;
-            Rating = new Rating();
         }
 
         /// <summary>
