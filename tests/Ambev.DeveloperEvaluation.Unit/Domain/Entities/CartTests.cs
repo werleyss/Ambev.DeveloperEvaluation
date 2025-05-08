@@ -47,5 +47,51 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
             Assert.Equal(1, cart.CartItems?.Count);
             Assert.Equal(3, cart.CartItems?.FirstOrDefault(p => p.ProductId == productId)?.Quantity);
         }
+
+        /// <summary>
+        /// Tests quantity above 4, when calculating value, then 10% discount is applied.
+        /// </summary>
+        [Fact(DisplayName = "Given quantity above 4, when calculating value, then 10% discount is applied")]
+        public void Given_QuantityAbove4_When_CalculateValue_Then_10PercentDiscount()
+        {
+            // Arrange
+            var item = new CartItem(Guid.NewGuid(), "Test Product", 1, 100); 
+            item.AddQuantity(4);
+
+            //Act
+            var total = item.CalculateValue();
+
+            // Assert
+            Assert.Equal(450, total);
+        }
+
+        /// <summary>
+        /// Tests quantity between 10 and 20, when calculating value, then 20% discount is applied.
+        /// </summary>
+
+        [Fact(DisplayName = "Given quantity between 10 and 20, when calculating value, then 20% discount is applied")]
+        public void Given_QuantityBetween10And20_When_CalculateValue_Then_20PercentDiscount()
+        {
+            // Arrange
+            var item = new CartItem(Guid.NewGuid(), "Test Product", 1, 100);
+            item.AddQuantity(9);
+
+            //Act
+            var total = item.CalculateValue();
+
+            // Assert
+            Assert.Equal(800, total);
+        }
+
+        [Fact(DisplayName = "Given quantity above 20, when adding quantity or calculating value, then throws exception")]
+        public void Given_QuantityAbove20_When_AddQuantityOrCalculate_Then_ThrowsException()
+        {
+            // Arrange
+            var item = new CartItem(Guid.NewGuid(), "Test Product", 20, 100);
+
+            //Act && Assert 
+            Assert.Throws<DomainException>(() => item.AddQuantity(1));
+            Assert.Throws<DomainException>(() => item.CalculateValue());
+        }
     }
 }

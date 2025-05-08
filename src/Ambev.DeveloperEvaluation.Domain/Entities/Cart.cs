@@ -1,4 +1,6 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Common;
+﻿using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
@@ -38,6 +40,32 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         }
 
         /// <summary>
+        /// Performs validation of the cart entity using CartValidator rules.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="ValidationResultDetail"/> containing:
+        /// - IsValid: Indicates whether all validation rules passed
+        /// - Errors: Collection of validation errors if any rules failed
+        /// </returns>
+        /// <remarks>
+        /// <listheader>The validation includes checking:</listheader>
+        /// <list type="bullet">UserId requirements</list>
+        /// <list type="bullet">Date requirements</list>
+        /// <list type="bullet">CartItems list valid</list>
+        /// 
+        /// </remarks>
+        public ValidationResultDetail Validate()
+        {
+            var validator = new CartValidator();
+            var result = validator.Validate(this);
+            return new ValidationResultDetail
+            {
+                IsValid = result.IsValid,
+                Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
+            };
+        }
+
+        /// <summary>
         /// Calculates and updates the total value of all items in the cart.
         /// </summary>
         public void CalculateTotalValue()
@@ -67,5 +95,4 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             CalculateTotalValue();
         }
     }
-
 }
