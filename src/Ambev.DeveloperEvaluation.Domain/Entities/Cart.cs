@@ -74,12 +74,28 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         }
 
         /// <summary>
+        /// Checks if the cart already contains an item with the same ProductId.
+        /// </summary>
+        private bool ExistingCartItem(CartItem item)
+        {
+            return _cartItems.Any(i => i.ProductId == item.ProductId);
+        }
+
+        /// <summary>
+        /// Validates that the specified cart item exists in the cart
+        /// </summary>
+        private void ValidExistingCartItem(CartItem item)
+        {
+            if (!ExistingCartItem(item)) throw new DomainException("The item does not exist in the cart.");
+        }
+
+        /// <summary>
         /// Adds an item to the cart. If the item already exists, it updates its quantity and recalculates the total value.
         /// </summary>
         /// <param name="item">The cart item to add or update.</param>
         public void AddItem(CartItem item)
         {
-            if (_cartItems.Any(i => i.ProductId == item.ProductId))
+            if (ExistingCartItem(item))
             {
                 var itemExist = _cartItems.FirstOrDefault(i => i.ProductId == item.ProductId);
 
@@ -93,6 +109,15 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             _cartItems.Add(item);
 
             CalculateTotalValue();
+        }
+
+        /// <summary>
+        /// Update an item to the cart.
+        /// </summary>
+        /// <param name="item">The cart item to update.</param>
+        public void UpdateItem(CartItem item)
+        {
+            ValidExistingCartItem(item);
         }
     }
 }

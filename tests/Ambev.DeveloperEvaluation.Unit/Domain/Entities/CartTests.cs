@@ -68,7 +68,6 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
         /// <summary>
         /// Tests quantity between 10 and 20, when calculating value, then 20% discount is applied.
         /// </summary>
-
         [Fact(DisplayName = "Given quantity between 10 and 20, when calculating value, then 20% discount is applied")]
         public void Given_QuantityBetween10And20_When_CalculateValue_Then_20PercentDiscount()
         {
@@ -83,6 +82,9 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
             Assert.Equal(800, total);
         }
 
+        /// <summary>
+        /// Tests quantity above 20, when adding quantity or calculating value, then throws exception.
+        /// </summary>
         [Fact(DisplayName = "Given quantity above 20, when adding quantity or calculating value, then throws exception")]
         public void Given_QuantityAbove20_When_AddQuantityOrCalculate_Then_ThrowsException()
         {
@@ -92,6 +94,20 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
             //Act && Assert 
             Assert.Throws<DomainException>(() => item.AddQuantity(1));
             Assert.Throws<DomainException>(() => item.CalculateValue());
+        }
+
+        /// <summary>
+        /// Tests an item that does not exist then an exception is thrown.
+        /// </summary>
+        [Fact(DisplayName = "Given an item that does not exist then an exception is thrown")]
+        public void Given_ItemExists_When_Item_Updated_Then_Throws_Exception()
+        {
+            // Arrange
+            var cart = new Cart();
+            var item = new CartItem(Guid.NewGuid(), "Test Product", 20, 100);
+
+            //Act && Assert 
+            Assert.Throws<DomainException>(() => cart.UpdateItem(item));
         }
     }
 }
