@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.Application.Cart.CreateCart
+namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
 {
-    public class AddItemCartValidator : AbstractValidator<AddItemCartCommand>
+    public class CreateCartItemCommandValidator : AbstractValidator<CreateCartItemCommand>
     {
-        public AddItemCartValidator()
+        public CreateCartItemCommandValidator()
         {
             RuleFor(ci => ci.ProductId)
              .NotEmpty()

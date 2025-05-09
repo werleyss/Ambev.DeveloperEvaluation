@@ -1,4 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Application.Cart.CreateCart;
+﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
 using Xunit;
 
 namespace Ambev.DeveloperEvaluation.Unit.Application
@@ -12,7 +12,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
         public void Command_ValidRequest_ReturnsSuccessResponse()
         {
             // Arrange 
-            var cartItem = new AddItemCartCommand(Guid.NewGuid(), Guid.NewGuid(), "Product Test", 2, 100);
+            var cartItem = new CreateCartItemCommand(Guid.NewGuid(), "Product Test", 2, 100);
 
             // Act
             var result = cartItem.Validate();
