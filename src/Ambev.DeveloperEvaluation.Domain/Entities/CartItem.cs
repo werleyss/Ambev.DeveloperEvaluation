@@ -127,7 +127,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// </summary>
         private void ValidateQuantity()
         {
-            if (Quantity > 20)
+            if (Quantity > Cart.ITEM_MAXIMUM_UNIT)
                 throw new DomainException("It is not allowed to purchase more than 20 identical items.");
         }
     }

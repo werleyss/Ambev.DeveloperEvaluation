@@ -97,17 +97,41 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
         }
 
         /// <summary>
-        /// Tests an item that does not exist then an exception is thrown.
+        /// Tests item does not exist when the item is removed and throws an exception.
         /// </summary>
-        [Fact(DisplayName = "Given an item that does not exist then an exception is thrown")]
-        public void Given_ItemExists_When_Item_Updated_Then_Throws_Exception()
+        [Fact(DisplayName = "Given item does not exist when the item is removed and throws an exception")]
+        public void Given_ItemNotExist_When_ItemRemoved_Then_ThrowsException()
         {
             // Arrange
             var cart = new Cart();
             var item = new CartItem(Guid.NewGuid(), "Test Product", 20, 100);
 
             //Act && Assert 
-            Assert.Throws<DomainException>(() => cart.UpdateItem(item));
+            Assert.Throws<DomainException>(() => cart.RemoveItem(item));
+        }
+
+        /// <summary>
+        /// Tests existing cart when item update should be done successfully.
+        /// </summary>
+        [Fact(DisplayName = "Given existing cart when item update should be done successfully")]
+        public void Given_ExistingCart_When_UpdateItem_The_ShouldSuccessfully()
+        {
+            // Arrange
+            var cart = new Cart();
+            var productId = Guid.NewGuid();
+
+            var cartItem1 = new CartItem(productId, "Test Product", 2, 100M);
+            cart.AddItem(cartItem1);
+
+            var cartItem2 = new CartItem(productId, "Test Product", 1, 100M);
+
+            // Act
+            cart.UpdateItem(cartItem2);
+
+            // Assert
+            Assert.Equal(100M, cart.TotalValue);
+            Assert.Equal(1, cart.CartItems?.Count);
+            Assert.Equal(1, cart.CartItems?.FirstOrDefault(p => p.ProductId == productId)?.Quantity);
         }
     }
 }
