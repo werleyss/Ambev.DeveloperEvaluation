@@ -1,5 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Validation;
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
@@ -28,6 +29,8 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// Gets or sets the date when the cart was created or last updated.
         /// </summary>
         public DateTime Date { get; set; }
+
+        public CartStatus Status { get; set; }
 
         /// <summary>
         /// Gets or sets the total value of all items in the cart.

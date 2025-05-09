@@ -7,8 +7,13 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart.CreateCart
     {
         public CreateCartProfile()
         {
-            CreateMap<CreateCartRequest, CreateCartCommand>();
+            CreateMap<CreateCartRequest, CreateCartCommand>()
+           .ConstructUsing(src => new CreateCartCommand());
+
+            CreateMap<CreateCartItemRequest, CreateCartItemCommand>();
+
             CreateMap<CreateCartResult, CreateCartResponse>();
+            CreateMap<CreateCartItemResult, CreateCartItemResponse>();
         }
     }
 }

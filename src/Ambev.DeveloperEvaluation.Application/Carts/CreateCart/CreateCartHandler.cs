@@ -28,7 +28,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
         /// </summary>
         /// <param name="command">The CreateCart command</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The created cart details</returns>
+        /// <returns>The created or updated cart details</returns>
         public async Task<CreateCartResult> Handle(CreateCartCommand command, CancellationToken cancellationToken)
         {
             var validator = new CreateCartCommandValidator();
@@ -37,11 +37,32 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            var cart = _mapper.Map<Cart>(command);
+            var existingCart = await _cartRepository.GetOpenCartByUserIdAsync(command.UserId, cancellationToken);
 
-            var createdCart = await _cartRepository.CreateAsync(cart, cancellationToken);
-            var result = _mapper.Map<CreateCartResult>(createdCart);
-            return result;
+            if (existingCart != null)
+            {
+                var cart = _mapper.Map<Cart>(command);
+
+                foreach (var item in cart.CartItems)
+                {
+                    existingCart.AddItem(item);
+                }
+
+                await _cartRepository.UpdateAsync(existingCart, cancellationToken);
+
+                var updatedResult = _mapper.Map<CreateCartResult>(existingCart);
+                return updatedResult;
+            }
+            else
+            {
+                var cart = _mapper.Map<Cart>(command);
+
+                await _cartRepository.CreateAsync(cart, cancellationToken);
+
+                var createdResult = _mapper.Map<CreateCartResult>(cart);
+                return createdResult;
+            }
         }
+
     }
 }

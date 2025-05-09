@@ -1,4 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,7 +53,7 @@ public class CartRepository : ICartRepository
     /// <param name="id">The unique identifier of the cart</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The cart if found, null otherwise</returns>
-    public async Task<Cart?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<Cart> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         return await _context.Carts.FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
     }
@@ -72,5 +73,18 @@ public class CartRepository : ICartRepository
         _context.Carts.Remove(cart);
         await _context.SaveChangesAsync(cancellationToken);
         return true;
+    }
+
+
+
+    /// <summary>
+    /// Retrieves a cart by their unique identifier
+    /// </summary>
+    /// <param name="id">The unique identifier of the cart</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The cart if found, null otherwise</returns>
+    public async Task<Cart> GetOpenCartByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
+    {
+        return await _context.Carts.FirstOrDefaultAsync(o => o.UserId == userId && o.Status == CartStatus.Draft, cancellationToken);
     }
 }

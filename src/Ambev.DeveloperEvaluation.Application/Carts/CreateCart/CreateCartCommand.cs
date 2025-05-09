@@ -5,13 +5,18 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
 {
     public class CreateCartCommand : IRequest<CreateCartResult>
     {
-        public Guid UseId { get; set; }
+        public Guid UserId { get; set; }
         public DateTime Date { get; set; }
         public List<CreateCartItemCommand> Products { get; set; }
 
+        public CreateCartCommand()
+        {
+            Products = new List<CreateCartItemCommand>();
+        }
+
         public CreateCartCommand(Guid useId, List<CreateCartItemCommand> products)
         {
-            UseId = useId;
+            UserId = useId;
             Products = products; 
         }
 
