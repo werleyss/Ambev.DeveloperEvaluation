@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart.CreateCart
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart
 {
     public class CreateCartRequestValidator : AbstractValidator<CreateCartRequest>
     {
@@ -12,7 +12,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart.CreateCart
             RuleFor(cart => cart.Date)
                 .NotEmpty().WithMessage("Cart date is required.");
 
-            RuleForEach(cart => cart.Products).SetValidator(new CreateCartItemRequestValidator());
+            //RuleForEach(cart => cart.Products).SetValidator(new CreateCartItemRequestValidator());
         }
     }
 }

@@ -14,10 +14,10 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
             Products = new List<CreateCartItemCommand>();
         }
 
-        public CreateCartCommand(Guid useId, List<CreateCartItemCommand> products)
+        public CreateCartCommand(Guid useId)
         {
             UserId = useId;
-            Products = products; 
+            //Products = products; 
         }
 
         public ValidationResultDetail Validate()

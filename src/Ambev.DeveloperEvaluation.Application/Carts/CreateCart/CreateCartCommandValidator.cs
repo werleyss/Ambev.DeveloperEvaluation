@@ -10,7 +10,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
              .NotEmpty()
              .WithMessage("Product Identifier is mandatory.");
 
-            RuleForEach(cart => cart.Products).SetValidator(new CreateCartItemCommandValidator());
+            //RuleForEach(cart => cart.Products).SetValidator(new CreateCartItemCommandValidator());
         }
     }
 }

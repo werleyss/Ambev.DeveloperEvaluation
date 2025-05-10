@@ -38,4 +38,12 @@ public interface ICartItemRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>True if the cartItem was deleted, false if not found</returns>
     Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves all cart items associated with the specified cart ID.
+    /// </summary>
+    /// <param name="id">The unique identifier of the cartItem</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>A list of cart items belonging to the specified cart.</returns>
+    Task<List<CartItem>> GetByCartIdAsync(Guid id, CancellationToken cancellationToken = default);
 }

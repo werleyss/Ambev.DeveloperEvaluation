@@ -1,4 +1,4 @@
-﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart.CreateCart
+﻿namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart
 {
     /// <summary>
     /// Represents a request to create a new shopping cart.

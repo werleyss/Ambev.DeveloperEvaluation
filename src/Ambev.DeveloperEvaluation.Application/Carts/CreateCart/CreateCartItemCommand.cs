@@ -9,7 +9,12 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
         public string ProductName { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
-        public decimal Discount { get; set; }        
+        public decimal Discount { get; set; }
+
+        public CreateCartItemCommand()
+        {
+            
+        }
         public CreateCartItemCommand(Guid productId,  string productName, int quantity, decimal unitPrice)
         {
             ProductId = productId;

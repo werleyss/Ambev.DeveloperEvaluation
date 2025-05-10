@@ -73,4 +73,15 @@ public class CartItemRepository : ICartItemRepository
         await _context.SaveChangesAsync(cancellationToken);
         return true;
     }
+
+    /// <summary>
+    /// Retrieves a cartItem by their unique identifier
+    /// </summary>
+    /// <param name="id">The unique identifier of the cartItem</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The cartItem if found, null otherwise</returns>
+    public async Task<List<CartItem>> GetByCartIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _context.CartItems.Where(o => o.Id == id).ToListAsync(cancellationToken);
+    }
 }
