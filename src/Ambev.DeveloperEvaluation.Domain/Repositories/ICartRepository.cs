@@ -46,4 +46,11 @@ public interface ICartRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The cart if found, null otherwise</returns>
     Task<Cart> GetOpenCartByUserIdAsync(Guid UserId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieve a list of all carts
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The cart if found, null otherwise</returns>
+    Task<List<Cart>> GetAllAsync(CancellationToken cancellationToken = default);
 }

@@ -1,9 +1,9 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 
-namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
+namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart
 {
-    public class CreateCartItemCommand : IRequest<CreateCartItemResult>
+    public class UpdateCartItemCommand : IRequest<UpdateCartItemResult>
     {
         public Guid ProductId { get; set; }
         public string ProductName { get; set; }
@@ -11,11 +11,11 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
         public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }
 
-        public CreateCartItemCommand()
+        public UpdateCartItemCommand()
         {
             
         }
-        public CreateCartItemCommand(Guid productId,  string productName, int quantity, decimal unitPrice)
+        public UpdateCartItemCommand(Guid productId,  string productName, int quantity, decimal unitPrice)
         {
             ProductId = productId;
             ProductName = productName;
@@ -25,7 +25,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
 
         public ValidationResultDetail Validate()
         {
-            var validator = new CreateCartItemValidator();
+            var validator = new UpdateCartItemValidator();
             var result = validator.Validate(this);
             return new ValidationResultDetail
             {

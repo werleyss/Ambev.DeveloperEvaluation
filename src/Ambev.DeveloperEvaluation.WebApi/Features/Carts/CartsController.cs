@@ -1,13 +1,19 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
-using Ambev.DeveloperEvaluation.Application.Carts.GetCart;
+using Ambev.DeveloperEvaluation.Application.Carts.ListCarts;
 using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCart;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.ListCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.DeleteCart;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Ambev.DeveloperEvaluation.Application.Carts.UpdateCart;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCart;
+using Ambev.DeveloperEvaluation.Application.Carts.ListCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.ListCarts;
+using Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCart;
+using Ambev.DeveloperEvaluation.Application.Carts.GetCart;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart
 {
@@ -113,6 +119,80 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart
             {
                 Success = true,
                 Message = "Cart deleted successfully"
+            });
+        }
+
+        /// <summary>
+        /// Updates a cart by their ID
+        /// </summary>
+        /// <param name="id">The unique identifier of the cart to update</param>
+        /// <param name="request">The cart update request</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The updated cart details</returns>
+        [HttpPut("{id:guid}")]
+        [ProducesResponseType(typeof(ApiResponseWithData<UpdateCartResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UpdateCart(Guid id, [FromBody] UpdateCartRequest request, CancellationToken cancellationToken)
+        {
+            var validator = new UpdateCartRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<UpdateCartCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            return Created(string.Empty, new ApiResponseWithData<UpdateCartResponse>
+            {
+                Success = true,
+                Message = "Cart updated successfully",
+                Data = _mapper.Map<UpdateCartResponse>(response)
+            });
+        }
+
+        /// <summary>
+        /// Retrieves a paginated list of carts.
+        /// </summary>
+        /// <param name="page">Page number (default 1).</param>
+        /// <param name="size">Page size (default 10).</param>
+        /// <param name="order">Ordering string, e.g., "id desc, userId asc".</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Paginated list of carts.</returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(ApiResponseWithData<PaginatedResponse<ListCartsResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ListCarts(
+        [FromQuery(Name = "_page")] int page = 1,
+        [FromQuery(Name = "_size")] int size = 10,
+        [FromQuery(Name = "_order")] string? order = null,
+        CancellationToken cancellationToken = default)
+        {
+            var request = new ListCartsRequest { Page = page, Size = size, Order = order };
+
+            var validator = new ListCartsRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<ListCartsCommand>(request);
+            var result = await _mediator.Send(command, cancellationToken);
+
+            var response = new PaginatedResponse<ListCartsResponse>
+            {
+                Data = _mapper.Map<List<ListCartsResponse>>(result),
+                TotalCount = result.TotalCount,
+                CurrentPage = result.CurrentPage,
+                TotalPages = result.TotalPages,
+                Success = true
+            };
+
+            return Ok(new ApiResponseWithData<PaginatedResponse<ListCartsResponse>>
+            {
+                Success = true,
+                Message = "Carts retrieved successfully",
+                Data = response
             });
         }
     }

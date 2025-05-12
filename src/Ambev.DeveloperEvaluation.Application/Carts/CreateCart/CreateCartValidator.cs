@@ -2,15 +2,15 @@
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
 {
-    public class CreateCartCommandValidator : AbstractValidator<CreateCartCommand>
+    public class CreateCartValidator : AbstractValidator<CreateCartCommand>
     {
-        public CreateCartCommandValidator()
+        public CreateCartValidator()
         {
             RuleFor(ci => ci.UserId)
              .NotEmpty()
              .WithMessage("Product Identifier is mandatory.");
 
-            //RuleForEach(cart => cart.Products).SetValidator(new CreateCartItemCommandValidator());
+            RuleForEach(cart => cart.Products).SetValidator(new CreateCartItemValidator());
         }
     }
 }

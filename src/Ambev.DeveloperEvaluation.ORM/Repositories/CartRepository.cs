@@ -1,6 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
@@ -55,7 +56,8 @@ public class CartRepository : ICartRepository
     /// <returns>The cart if found, null otherwise</returns>
     public async Task<Cart> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Carts.FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
+        return await _context.Carts.Include(cart => cart.CartItems)
+                                   .FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
     }
 
     /// <summary>
@@ -86,5 +88,16 @@ public class CartRepository : ICartRepository
     public async Task<Cart> GetOpenCartByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         return await _context.Carts.FirstOrDefaultAsync(o => o.UserId == userId && o.Status == CartStatus.Draft, cancellationToken);
+    }
+
+    /// <summary>
+    /// Retrieves a cart by their unique identifier
+    /// </summary>
+    /// <param name="id">The unique identifier of the cart</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The cart if found, null otherwise</returns>
+    public async Task<List<Cart>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Carts.Include(x => x.CartItems).ToListAsync(cancellationToken);
     }
 }

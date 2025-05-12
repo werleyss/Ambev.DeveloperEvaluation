@@ -2,53 +2,51 @@ using AutoMapper;
 using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Application.Common;
 
-namespace Ambev.DeveloperEvaluation.Application.Carts.GetCart;
+namespace Ambev.DeveloperEvaluation.Application.Carts.ListCarts;
 
 /// <summary>
-/// Handler for processing GetCartCommand requests
+/// Handler for processing ListCartsCommand requests
 /// </summary>
-public class GetCartHandler : IRequestHandler<GetCartCommand, GetCartResult>
+public class ListCartsHandler : IRequestHandler<ListCartsCommand, PaginatedList<ListCartsResult>>
 {
     private readonly ICartRepository _cartRepository;
     private readonly ICartItemRepository _cartItemRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// Initializes a new instance of GetCartHandler
+    /// Initializes a new instance of ListCartsHandler
     /// </summary>
     /// <param name="cartRepository">The cart repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
-    /// <param name="validator">The validator for GetCartCommand</param>
-    public GetCartHandler(
+    /// <param name="validator">The validator for ListCartsCommand</param>
+    public ListCartsHandler(
         ICartRepository cartRepository,
         ICartItemRepository cartItemRepository,
         IMapper mapper)
     {
         _cartRepository = cartRepository;
-        _cartItemRepository = cartItemRepository;
         _mapper = mapper;
     }
 
     /// <summary>
-    /// Handles the GetCartCommand request
+    /// Handles the ListCartsCommand request
     /// </summary>
-    /// <param name="request">The GetCart command</param>
+    /// <param name="request">The ListCarts command</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The cart details if found</returns>
-    public async Task<GetCartResult> Handle(GetCartCommand request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ListCartsResult>> Handle(ListCartsCommand request, CancellationToken cancellationToken)
     {
-        var validator = new GetCartValidator();
+        var validator = new ListCartsValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var cart = await _cartRepository.GetByIdAsync(request.Id, cancellationToken);
-        if (cart == null)
-            throw new KeyNotFoundException($"Cart with ID {request.Id} not found");
+        var carts = await _cartRepository.GetAllAsync(cancellationToken);
 
-        var result = _mapper.Map<GetCartResult>(cart);
+        var result = _mapper.Map<PaginatedList<ListCartsResult>>(carts);
 
         return result;
     }

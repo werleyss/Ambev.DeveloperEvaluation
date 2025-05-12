@@ -12,7 +12,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart
             RuleFor(cart => cart.Date)
                 .NotEmpty().WithMessage("Cart date is required.");
 
-            //RuleForEach(cart => cart.Products).SetValidator(new CreateCartItemRequestValidator());
+            RuleForEach(cart => cart.Products).SetValidator(new CreateCartItemRequestValidator());
         }
     }
 }

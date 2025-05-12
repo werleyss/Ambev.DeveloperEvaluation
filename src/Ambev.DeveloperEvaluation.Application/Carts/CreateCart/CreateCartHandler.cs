@@ -31,7 +31,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
         /// <returns>The created or updated cart details</returns>
         public async Task<CreateCartResult> Handle(CreateCartCommand command, CancellationToken cancellationToken)
         {
-            var validator = new CreateCartCommandValidator();
+            var validator = new CreateCartValidator();
             var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
             if (!validationResult.IsValid)
