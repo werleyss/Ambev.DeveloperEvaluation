@@ -14,12 +14,6 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
             Products = new List<CreateCartItemCommand>();
         }
 
-        public CreateCartCommand(Guid useId)
-        {
-            UserId = useId;
-            //Products = products; 
-        }
-
         public ValidationResultDetail Validate()
         {
             var validator = new CreateCartValidator();
