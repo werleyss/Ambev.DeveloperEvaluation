@@ -46,7 +46,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
         public Product()
         {
-            CreatedAt = DateTime.Now;
+            CreatedAt = DateTime.UtcNow;
         }
 
         /// <summary>
