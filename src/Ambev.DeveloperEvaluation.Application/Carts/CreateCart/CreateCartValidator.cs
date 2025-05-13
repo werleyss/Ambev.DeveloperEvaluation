@@ -8,7 +8,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
         {
             RuleFor(ci => ci.UserId)
              .NotEmpty()
-             .WithMessage("Product Identifier is mandatory.");
+             .WithMessage("User Identifier is mandatory.");
 
             RuleForEach(cart => cart.Products).SetValidator(new CreateCartItemValidator());
         }

@@ -9,6 +9,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
     public class CreateCartHandler : IRequestHandler<CreateCartCommand, CreateCartResult>
     {
         private readonly ICartRepository _cartRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
         /// <summary>
@@ -17,9 +18,10 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
         /// <param name="cartRepository">The cart repository</param>
         /// <param name="mapper">The AutoMapper instance</param>
         /// <param name="validator">The validator for CreateCartCommand</param>
-        public CreateCartHandler(ICartRepository cartRepository, IMapper mapper)
+        public CreateCartHandler(ICartRepository cartRepository, IProductRepository productRepository, IMapper mapper)
         {
             _cartRepository = cartRepository;
+            _productRepository = productRepository;
             _mapper = mapper;
         }
 
@@ -41,11 +43,13 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
 
             if (existingCart != null)
             {
-                var cart = _mapper.Map<Cart>(command);
-
-                foreach (var item in cart.CartItems)
+                foreach (var item in command.Products)
                 {
-                    existingCart.AddItem(item);
+                    var product = await _productRepository.GetByIdAsync(item.ProductId);
+
+                    if (product == null) throw new DomainException($"Product with ID {item.ProductId} not found");
+
+                    existingCart.AddItem(new CartItem(item.ProductId, product.Title, item.Quantity, product.Price));
                 }
 
                 await _cartRepository.UpdateAsync(existingCart, cancellationToken);

@@ -6,7 +6,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
     public class CreateCartItemCommand : IRequest<CreateCartItemResult>
     {
         public Guid ProductId { get; set; }
-        public string ProductName { get; set; }
+        public string ProductTitle { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }
@@ -15,10 +15,10 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
         {
             
         }
-        public CreateCartItemCommand(Guid productId,  string productName, int quantity, decimal unitPrice)
+        public CreateCartItemCommand(Guid productId,  string productTitle, int quantity, decimal unitPrice)
         {
             ProductId = productId;
-            ProductName = productName;
+            ProductTitle = productTitle;
             Quantity = quantity;
             UnitPrice = unitPrice;
         }

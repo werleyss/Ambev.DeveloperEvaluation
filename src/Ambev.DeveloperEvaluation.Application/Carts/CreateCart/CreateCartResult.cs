@@ -6,7 +6,7 @@
         /// Indicates whether the create was successful
         /// </summary>
         public Guid Id { get; set; }
-        public Guid UseId { get; set; }
+        public Guid UserId { get; set; }
         public DateTime Date {  get; set; }
 
         public List<CreateCartItemResult> Products { get; set; }
