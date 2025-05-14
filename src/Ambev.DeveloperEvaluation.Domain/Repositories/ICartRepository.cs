@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
@@ -52,5 +53,5 @@ public interface ICartRepository
     /// </summary>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The cart if found, null otherwise</returns>
-    Task<List<Cart>> GetAllAsync(CancellationToken cancellationToken = default);
+    Task<PaginatedList<Cart>> GetAllAsync(int page, int size, string? order, CancellationToken cancellationToken = default);
 }

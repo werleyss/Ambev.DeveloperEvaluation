@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Common;
+using Ambev.DeveloperEvaluation.Domain.Common;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.ListCarts;
@@ -6,7 +6,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.ListCarts;
 /// <summary>
 /// Command for retrieving a cart by their ID
 /// </summary>
-public record ListCartsCommand : IRequest<PaginatedList<ListCartsResult>>
+public record ListCartsCommand : IRequest<PaginatedResponse<ListCartsResult>>
 {
     public int Page { get; set; }
     public int Size { get; set; }

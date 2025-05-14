@@ -1,4 +1,5 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -96,8 +97,10 @@ public class CartRepository : ICartRepository
     /// <param name="id">The unique identifier of the cart</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The cart if found, null otherwise</returns>
-    public async Task<List<Cart>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<PaginatedList<Cart>> GetAllAsync(int page, int size, string? order, CancellationToken cancellationToken = default)
     {
-        return await _context.Carts.Include(x => x.Products).ToListAsync(cancellationToken);
+       var query = _context.Carts.Include(x => x.Products);
+
+        return await PaginatedList<Cart>.CreateAsync(query, page, size);
     }
 }

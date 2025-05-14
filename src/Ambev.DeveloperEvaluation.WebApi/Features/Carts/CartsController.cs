@@ -163,7 +163,6 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart
         CancellationToken cancellationToken = default)
         {
             var request = new ListCartsRequest { Page = page, Size = size, Order = order };
-
             var validator = new ListCartsRequestValidator();
             var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
