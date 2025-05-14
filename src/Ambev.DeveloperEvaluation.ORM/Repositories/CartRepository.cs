@@ -56,7 +56,7 @@ public class CartRepository : ICartRepository
     /// <returns>The cart if found, null otherwise</returns>
     public async Task<Cart> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Carts.Include(cart => cart.CartItems)
+        return await _context.Carts.Include(cart => cart.Products)
                                    .FirstOrDefaultAsync(o=> o.Id == id, cancellationToken);
     }
 
@@ -87,7 +87,7 @@ public class CartRepository : ICartRepository
     /// <returns>The cart if found, null otherwise</returns>
     public async Task<Cart> GetOpenCartByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
     {
-        return await _context.Carts.FirstOrDefaultAsync(o => o.UserId == userId && o.Status == CartStatus.Draft, cancellationToken);
+        return await _context.Carts.Include(x => x.Products).FirstOrDefaultAsync(o => o.UserId == userId && o.Status == CartStatus.Draft, cancellationToken);
     }
 
     /// <summary>
@@ -98,6 +98,6 @@ public class CartRepository : ICartRepository
     /// <returns>The cart if found, null otherwise</returns>
     public async Task<List<Cart>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await _context.Carts.Include(x => x.CartItems).ToListAsync(cancellationToken);
+        return await _context.Carts.Include(x => x.Products).ToListAsync(cancellationToken);
     }
 }

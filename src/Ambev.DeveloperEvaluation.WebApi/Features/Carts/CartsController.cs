@@ -84,12 +84,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart
             var command = _mapper.Map<GetCartCommand>(request.Id);
             var response = await _mediator.Send(command, cancellationToken);
 
-            return Ok(new ApiResponseWithData<GetCartResponse>
-            {
-                Success = true,
-                Message = "Cart retrieved successfully",
-                Data = _mapper.Map<GetCartResponse>(response)
-            });
+            return Ok(_mapper.Map<GetCartResponse>(response), "Cart retrieved successfully");
         }
 
         /// <summary>
@@ -159,7 +154,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>Paginated list of carts.</returns>
         [HttpGet]
-        [ProducesResponseType(typeof(ApiResponseWithData<PaginatedResponse<ListCartsResponse>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaginatedResponse<ListCartsResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ListCarts(
         [FromQuery(Name = "_page")] int page = 1,

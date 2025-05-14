@@ -12,6 +12,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart;
 public class UpdateCartHandler : IRequestHandler<UpdateCartCommand, UpdateCartResult>
 {
     private readonly ICartRepository _cartRepository;
+    private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
 
     /// <summary>
@@ -20,9 +21,10 @@ public class UpdateCartHandler : IRequestHandler<UpdateCartCommand, UpdateCartRe
     /// <param name="cartRepository">The cart repository</param>
     /// <param name="mapper">The AutoMapper instance</param>
     /// <param name="validator">The validator for UpdateCartCommand</param>
-    public UpdateCartHandler(ICartRepository cartRepository, IMapper mapper)
+    public UpdateCartHandler(ICartRepository cartRepository, IProductRepository productRepository, IMapper mapper)
     {
         _cartRepository = cartRepository;
+        _productRepository = productRepository;
         _mapper = mapper;
     }
 
@@ -40,9 +42,20 @@ public class UpdateCartHandler : IRequestHandler<UpdateCartCommand, UpdateCartRe
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var cart = _mapper.Map<Cart>(command);
+        var existingCart = await _cartRepository.GetByIdAsync(command.Id, cancellationToken);
 
-        var createdCart = await _cartRepository.UpdateAsync(cart, cancellationToken);
+        if (existingCart == null) throw new DomainException($"Cart with ID {command.Id} not found");
+
+        foreach (var item in command.Products)
+        {
+            var product = await _productRepository.GetByIdAsync(item.ProductId);
+
+            if (product == null) throw new DomainException($"Product with ID {item.ProductId} not found");
+
+            existingCart.UpdateItem(new CartItem(item.ProductId, product.Title, item.Quantity, product.Price));
+        }
+
+        var createdCart = await _cartRepository.UpdateAsync(existingCart, cancellationToken);
         var result = _mapper.Map<UpdateCartResult>(createdCart);
         return result;
     }

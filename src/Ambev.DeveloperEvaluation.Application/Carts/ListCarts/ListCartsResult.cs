@@ -6,7 +6,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.ListCarts;
 public class ListCartsResult
 {
     public Guid Id { get; set; }
-    public Guid UseId { get; set; }
+    public Guid UserId { get; set; }
     public DateTime Date { get; set; }
 
     public List<ListCartItemResult> Products { get; set; }

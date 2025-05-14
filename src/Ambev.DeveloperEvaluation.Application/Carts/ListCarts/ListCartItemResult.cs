@@ -1,12 +1,9 @@
-using Ambev.DeveloperEvaluation.Application.Carts.CreateCart;
-using Ambev.DeveloperEvaluation.Domain.Enums;
-
-namespace Ambev.DeveloperEvaluation.Application.Carts.GetCart;
+namespace Ambev.DeveloperEvaluation.Application.Carts.ListCarts;
 
 /// <summary>
-/// Response model for GetCartItem operation
+/// Response model for ListCartItem operation
 /// </summary>
-public class GetCartItemResult
+public class ListCartItemResult
 {
     public Guid ProductId { get; set; }
     public int Quantity { get; set; }

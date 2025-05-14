@@ -6,7 +6,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart
     public class UpdateCartItemCommand : IRequest<UpdateCartItemResult>
     {
         public Guid ProductId { get; set; }
-        public string ProductName { get; set; }
+        public string ProductTitle { get; set; }
         public int Quantity { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal Discount { get; set; }
@@ -15,10 +15,10 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart
         {
             
         }
-        public UpdateCartItemCommand(Guid productId,  string productName, int quantity, decimal unitPrice)
+        public UpdateCartItemCommand(Guid productId,  string productTitle, int quantity, decimal unitPrice)
         {
             ProductId = productId;
-            ProductName = productName;
+            ProductTitle = productTitle;
             Quantity = quantity;
             UnitPrice = unitPrice;
         }

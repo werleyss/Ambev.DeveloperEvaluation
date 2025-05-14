@@ -42,7 +42,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets the collection of items in the cart.
         /// </summary>
-        public IReadOnlyCollection<CartItem> CartItems => _cartItems;
+        public IReadOnlyCollection<CartItem> Products => _cartItems;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Cart"/> class.
@@ -83,7 +83,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// </summary>
         public void CalculateTotalValue()
         {
-            TotalValue = CartItems.Sum(i => i.CalculateValue());
+            TotalValue = Products.Sum(i => i.CalculateValue());
         }
 
         /// <summary>

@@ -13,6 +13,6 @@ public class CartValidator : AbstractValidator<Cart>
         RuleFor(cart => cart.Date)
             .NotEmpty().WithMessage("Cart date is required.");
 
-        RuleForEach(cart => cart.CartItems).SetValidator(new CartItemValidator());
+        RuleForEach(cart => cart.Products).SetValidator(new CartItemValidator());
     }
 }

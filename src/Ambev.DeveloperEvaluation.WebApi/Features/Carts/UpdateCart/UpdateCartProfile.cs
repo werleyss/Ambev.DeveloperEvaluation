@@ -13,7 +13,8 @@ public class UpdateCartProfile : Profile
     /// </summary>
     public UpdateCartProfile()
     {
-        CreateMap<UpdateCartRequest, UpdateCartCommand>();
+        CreateMap<UpdateCartRequest, UpdateCartCommand>()
+                .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
         CreateMap<UpdateCartResult, UpdateCartResponse>();
 
         CreateMap<UpdateCartItemRequest, UpdateCartItemCommand>();

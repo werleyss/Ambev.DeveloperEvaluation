@@ -1,9 +1,9 @@
-namespace Ambev.DeveloperEvaluation.Application.Carts.ListCarts;
+namespace Ambev.DeveloperEvaluation.Application.Carts.GetCart;
 
 /// <summary>
 /// Response model for GetCartItem operation
 /// </summary>
-public class ListCartItemResult
+public class GetCartItemResult
 {
     public Guid ProductId { get; set; }
     public int Quantity { get; set; }

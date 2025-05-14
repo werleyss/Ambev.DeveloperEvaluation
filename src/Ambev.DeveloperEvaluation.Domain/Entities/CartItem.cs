@@ -46,6 +46,11 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// </summary>
         public Cart Cart { get; set; }
 
+        public CartItem()
+        {
+            
+        }
+
         public CartItem(Guid productId, string productTitle, int quantity, decimal unitPrice)
         {
             ProductId = productId;

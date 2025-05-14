@@ -14,7 +14,9 @@ public class ListCartsProfile : Profile
     /// </summary>
     public ListCartsProfile()
     {
-        CreateMap<Cart, ListCartsResult>();
-        CreateMap<CartItem, CreateCartItemResult>();
+        CreateMap<Cart, ListCartsResult>()
+                .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
+
+        CreateMap<CartItem, ListCartItemResult>();
     }
 }
