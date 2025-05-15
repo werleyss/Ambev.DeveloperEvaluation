@@ -8,12 +8,23 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCart;
 public class UpdateCartResponse
 {
     /// <summary>
-    /// The unique identifier of the created or update Cart
+    /// The unique identifier of the cart to retrieve
     /// </summary>
     public Guid Id { get; set; }
+
+    /// <summary>
+    /// Gets or sets the unique identifier of the user creating the cart.
+    /// </summary>
     public Guid UserId { get; set; }
+
+    /// <summary>
+    /// Gets or sets the date the cart was created.
+    /// </summary>
     public DateTime Date { get; set; }
-    public decimal TotalValue { get; set; }
+
+    /// <summary>
+    /// Gets or sets the list of products to be added to the cart.
+    /// </summary>
     public List<UpdateCartItemResponse> Products { get; set; }
 
     public UpdateCartResponse()

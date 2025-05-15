@@ -1,6 +1,4 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Validation;
-using Ambev.DeveloperEvaluation.WebApi.Features.Carts.CreateCart;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCart;
 
@@ -14,11 +12,8 @@ public class UpdateCartRequestValidator : AbstractValidator<UpdateCartRequest>
     /// </summary>
     /// <remarks>
     /// Validation rules include:
-    /// - Title: Required, must be between 3 and 50 characters
-    /// - Price: Required, Must be greater than zero
-    /// - Description: Required, must be between 3 and 2000 characters
-    /// - Category: Required, must be between 3 and 50 characters
-    /// - Image: Required, must be maximum 2000 characters
+    /// - UserId: Required, Unique identifier of the user
+    /// - Date: Required, Date the cart was created
     /// </remarks>
     public UpdateCartRequestValidator()
     {
