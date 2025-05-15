@@ -11,7 +11,6 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Carts.ListCarts;
 using Ambev.DeveloperEvaluation.WebApi.Features.Carts.UpdateCart;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart
@@ -170,23 +169,20 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Cart
                 return BadRequest(validationResult.Errors);
 
             var command = _mapper.Map<ListCartsCommand>(request);
-            var result = await _mediator.Send(command, cancellationToken);
+            var response = await _mediator.Send(command, cancellationToken);
 
-            var response = new PaginatedResponse<ListCartsResponse>
+            var listResponse = _mapper.Map<List<ListCartsResponse>>(response);
+
+            var result = new PaginatedResponse<ListCartsResponse>
             {
-                Data = _mapper.Map<List<ListCartsResponse>>(result),
-                TotalCount = result.TotalCount,
-                CurrentPage = result.CurrentPage,
-                TotalPages = result.TotalPages,
-                Success = true
+                Data = listResponse,
+                TotalCount = response.TotalCount,
+                CurrentPage = response.CurrentPage,
+                TotalPages = response.TotalPages,
+                Success = true,
             };
 
-            return Ok(new ApiResponseWithData<PaginatedResponse<ListCartsResponse>>
-            {
-                Success = true,
-                Message = "Carts retrieved successfully",
-                Data = response
-            });
+            return Ok(result);
         }
     }
 }

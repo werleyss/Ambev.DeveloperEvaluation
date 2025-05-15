@@ -9,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.ListCarts;
 /// <summary>
 /// Handler for processing ListCartsCommand requests
 /// </summary>
-public class ListCartsHandler : IRequestHandler<ListCartsCommand, PaginatedResponse<ListCartsResult>>
+public class ListCartsHandler : IRequestHandler<ListCartsCommand, PaginatedList<ListCartsResult>>
 {
     private readonly ICartRepository _cartRepository;
     private readonly IMapper _mapper;
@@ -34,7 +34,7 @@ public class ListCartsHandler : IRequestHandler<ListCartsCommand, PaginatedRespo
     /// <param name="request">The ListCarts command</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The cart details if found</returns>
-    public async Task<PaginatedResponse<ListCartsResult>> Handle(ListCartsCommand request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ListCartsResult>> Handle(ListCartsCommand request, CancellationToken cancellationToken)
     {
         var validator = new ListCartsValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -44,7 +44,14 @@ public class ListCartsHandler : IRequestHandler<ListCartsCommand, PaginatedRespo
 
         var carts = await _cartRepository.GetAllAsync(request.Page, request.Size, request.Order, cancellationToken);
 
-        var result = _mapper.Map<PaginatedResponse<ListCartsResult>>(carts);
+        var cartResult = _mapper.Map<PaginatedResponse<ListCartsResult>>(carts);
+
+        var result = new PaginatedList<ListCartsResult>(
+            cartResult,
+            carts.TotalCount,
+            carts.CurrentPage,
+            carts.PageSize
+        );
 
         return result;
     }

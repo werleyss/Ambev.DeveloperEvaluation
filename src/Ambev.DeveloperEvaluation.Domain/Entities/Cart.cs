@@ -35,7 +35,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// <summary>
         /// Gets or sets the total value of all items in the cart.
         /// </summary>
-        public Decimal TotalValue { get; set; }
+        public decimal TotalValue { get; set; }
 
         private readonly List<CartItem> _cartItems;
 
@@ -49,6 +49,14 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         /// </summary>
         public Cart()
         {
+            _cartItems = new List<CartItem>();
+        }
+
+        public Cart(Guid userId, DateTime date)
+        {
+            UserId = userId;
+            Date = date;
+
             _cartItems = new List<CartItem>();
         }
 

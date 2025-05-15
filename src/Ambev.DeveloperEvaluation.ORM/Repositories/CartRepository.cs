@@ -4,6 +4,7 @@ using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace Ambev.DeveloperEvaluation.ORM.Repositories;
 
@@ -99,7 +100,12 @@ public class CartRepository : ICartRepository
     /// <returns>The cart if found, null otherwise</returns>
     public async Task<PaginatedList<Cart>> GetAllAsync(int page, int size, string? order, CancellationToken cancellationToken = default)
     {
-       var query = _context.Carts.Include(x => x.Products);
+       IQueryable<Cart> query = _context.Carts.Include(x => x.Products);
+
+        if (!string.IsNullOrWhiteSpace(order))
+        {
+            query = query.OrderBy(order);
+        }
 
         return await PaginatedList<Cart>.CreateAsync(query, page, size);
     }

@@ -9,6 +9,7 @@
 
         public Guid UserId { get; set; }
         public DateTime Date {  get; set; }
+        public decimal TotalValue { get; set; }
         public List<CreateCartItemResponse> Products { get; set; }
 
         public CreateCartResponse()

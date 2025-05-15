@@ -13,6 +13,7 @@ public class UpdateCartResponse
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public DateTime Date { get; set; }
+    public decimal TotalValue { get; set; }
     public List<UpdateCartItemResponse> Products { get; set; }
 
     public UpdateCartResponse()

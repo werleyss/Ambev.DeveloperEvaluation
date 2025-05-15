@@ -1,5 +1,3 @@
-using Ambev.DeveloperEvaluation.Domain.Enums;
-
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts.GetCart;
 
 /// <summary>
@@ -14,6 +12,7 @@ public class GetCartResponse
 
     public Guid UserId { get; set; }
     public DateTime Date { get; set; }
+    public decimal TotalValue { get; set; }
     public List<GetCartItemResponse> Products { get; set; }
 
     public GetCartResponse()

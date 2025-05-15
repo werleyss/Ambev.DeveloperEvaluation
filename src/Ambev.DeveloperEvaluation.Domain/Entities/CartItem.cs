@@ -53,6 +53,12 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
 
         public CartItem(Guid productId, string productTitle, int quantity, decimal unitPrice)
         {
+            if (quantity <= 0 || quantity > 20)
+                throw new DomainException("Quantity must be between 1 and 20.");
+
+            if (unitPrice <= 0)
+                throw new DomainException("Unit price must be greater than zero.");
+
             ProductId = productId;
             ProductTitle = productTitle;
             Quantity = quantity;

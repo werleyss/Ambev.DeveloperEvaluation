@@ -16,5 +16,7 @@ public class ListCartsProfile : Profile
         CreateMap<ListCartsRequest, ListCartsCommand>();
 
         CreateMap<ListCartsResult, ListCartsResponse>();
+
+        CreateMap<ListCartItemResult, ListCartItemResponse>();
     }
 }

@@ -44,8 +44,8 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
 
             // Assert
             Assert.Equal(300M, cart.TotalValue);
-            Assert.Equal(1, cart.CartItems?.Count);
-            Assert.Equal(3, cart.CartItems?.FirstOrDefault(p => p.ProductId == productId)?.Quantity);
+            Assert.Equal(1, cart.Products?.Count);
+            Assert.Equal(3, cart.Products?.FirstOrDefault(p => p.ProductId == productId)?.Quantity);
         }
 
         /// <summary>
@@ -130,8 +130,8 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
 
             // Assert
             Assert.Equal(100M, cart.TotalValue);
-            Assert.Equal(1, cart.CartItems?.Count);
-            Assert.Equal(1, cart.CartItems?.FirstOrDefault(p => p.ProductId == productId)?.Quantity);
+            Assert.Equal(1, cart.Products?.Count);
+            Assert.Equal(1, cart.Products?.FirstOrDefault(p => p.ProductId == productId)?.Quantity);
         }
     }
 }

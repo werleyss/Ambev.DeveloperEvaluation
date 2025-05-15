@@ -59,7 +59,16 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
             }
             else
             {
-                var cart = _mapper.Map<Cart>(command);
+                var cart =  new Cart(command.UserId, command.Date);
+
+                foreach(var item in command.Products)
+                {
+                    var product = await _productRepository.GetByIdAsync(item.ProductId);
+                    if (product == null)
+                        throw new DomainException($"Product with ID {item.ProductId} not found");
+
+                    cart.AddItem(new CartItem(item.ProductId, product.Title, item.Quantity, product.Price));
+                }
 
                 await _cartRepository.CreateAsync(cart, cancellationToken);
 

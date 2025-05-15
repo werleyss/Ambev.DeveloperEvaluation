@@ -12,6 +12,7 @@ public class ListCartsResponse
 
     public Guid UserId { get; set; }
     public DateTime Date { get; set; }
+    public decimal TotalValue { get; set; }
     public List<ListCartItemResponse> Products { get; set; }
 
     public ListCartsResponse()
