@@ -1,12 +1,15 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProduct;
 using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.Application.Products.GetProduct;
+using Ambev.DeveloperEvaluation.Application.Products.ListCategories;
+using Ambev.DeveloperEvaluation.Application.Products.ListCategory;
 using Ambev.DeveloperEvaluation.Application.Products.ListProduct;
 using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.ListCategory;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.ListProduct;
 using Ambev.DeveloperEvaluation.WebApi.Features.Products.UpdateProduct;
 using AutoMapper;
@@ -185,6 +188,64 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
             };
 
             return Ok(result);
+        }
+
+        /// <summary>
+        /// Retrieves a paginated list of products by category.
+        /// </summary>
+        /// <param name="category">Category string.</param>
+        /// <param name="page">Page number (default 1).</param>
+        /// <param name="size">Page size (default 10).</param>
+        /// <param name="order">Ordering string, e.g., "id desc, title asc".</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Paginated list of products by category.</returns>
+        [HttpGet("Category/{category}")]
+        [ProducesResponseType(typeof(PaginatedResponse<ListProductsResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ListCategory(
+        string category,
+        [FromQuery(Name = "_page")] int page = 1,
+        [FromQuery(Name = "_size")] int size = 10,
+        [FromQuery(Name = "_order")] string? order = null,
+        CancellationToken cancellationToken = default)
+        {
+            var request = new ListCategoryRequest { Category = category, Page = page, Size = size, Order = order };
+            var validator = new ListCategoryRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<ListCategoryCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            var listResponse = _mapper.Map<List<ListCategoryResponse>>(response);
+
+            var result = new PaginatedResponse<ListCategoryResponse>
+            {
+                Data = listResponse,
+                TotalCount = response.TotalCount,
+                CurrentPage = response.CurrentPage,
+                TotalPages = response.TotalPages,
+                Success = true,
+            };
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Retrieves a list of all categories.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>List of all categories.</returns>
+        [HttpGet("categories")]
+        [ProducesResponseType(typeof(List<string>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ListCategories(CancellationToken cancellationToken = default)
+        {
+            var response = await _mediator.Send(new ListCategoriesCommand(), cancellationToken);
+
+            return Ok(response);
         }
     }
 }

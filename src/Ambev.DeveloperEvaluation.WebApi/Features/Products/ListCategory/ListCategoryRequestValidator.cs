@@ -1,17 +1,20 @@
 using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.ListProduct;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.ListCategory;
 
 /// <summary>
-/// Validator for ListProductRequest
+/// Validator for ListCategoryRequest
 /// </summary>
-public class ListProductsRequestValidator : AbstractValidator<ListProductsRequest>
+public class ListCategoryRequestValidator : AbstractValidator<ListCategoryRequest>
 {
     /// <summary>
-    /// Initializes validation rules for ListProductRequest
+    /// Initializes validation rules for ListCategoryRequest
     /// </summary>
-    public ListProductsRequestValidator()
+    public ListCategoryRequestValidator()
     {
+        RuleFor(x => x.Category)
+             .NotEmpty().WithMessage("Category is required.");
+
         RuleFor(x => x.Page)
              .GreaterThan(0).WithMessage("Page number must be greater than zero.");
 

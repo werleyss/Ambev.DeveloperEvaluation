@@ -93,4 +93,23 @@ public class ProductRepository : IProductRepository
 
         return await PaginatedList<Product>.CreateAsync(query, page, size);
     }
+
+    public async Task<PaginatedList<Product>> GetByCategoryAsync(string category, int page, int size, string? order, CancellationToken cancellationToken = default)
+    {
+        IQueryable<Product> query = _context.Products;
+
+        query = query.Where(cd => cd.Category.ToUpper() == category.ToUpper());
+
+        if (!string.IsNullOrWhiteSpace(order))
+        {
+            query = query.OrderBy(order);
+        }
+
+        return await PaginatedList<Product>.CreateAsync(query, page, size);
+    }
+
+    public async Task<List<string>> GetAllCategoryAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Products.Select(p => p.Category).Distinct().ToListAsync();
+    }
 }

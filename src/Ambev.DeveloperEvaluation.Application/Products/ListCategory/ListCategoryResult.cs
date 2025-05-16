@@ -1,14 +1,14 @@
 using Ambev.DeveloperEvaluation.Domain.Enums;
 
-namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.ListProduct;
+namespace Ambev.DeveloperEvaluation.Application.Products.ListCategory;
 
 /// <summary>
-/// API response model for ListProduct operation
+/// Response model for ListCategory operation
 /// </summary>
-public class ListProductsCategoriesResponse
+public class ListCategoryResult
 {
     /// <summary>
-    /// The unique identifier of the created product
+    /// The unique identifier of the product
     /// </summary>
     public Guid Id { get; set; }
 
