@@ -48,7 +48,7 @@ Below are the main endpoints of the **Cart** API.
         ]
     }
   ```
-  **Reponse**
+- **Reponse**
   ```json
     {
         "success": true,
@@ -79,7 +79,7 @@ Below are the main endpoints of the **Cart** API.
 
 ### Get All Carts
 - **GET** `/api/v1/Carts`
-  **Reponse**
+- **Reponse**
   ```json
     {
         "success": true,
@@ -115,7 +115,7 @@ Below are the main endpoints of the **Cart** API.
 
 ### Get a Cart by ID
 - **GET** `/api/v1/Carts/{id}`
-  **Reponse**
+- **Reponse**
   ```json
     {
         "success": true,
@@ -160,7 +160,7 @@ Below are the main endpoints of the **Cart** API.
         ]
     }
   ```
-  **Reponse**
+- **Reponse**
   ```json
     {
         "success": true,
@@ -189,7 +189,7 @@ Below are the main endpoints of the **Cart** API.
   ```
 ### Delete a Cart
 - **DELETE** `/api/v1/Carts/{id}`
-  **Response**
+- **Response**
    ```json
     {
         "success": true,
