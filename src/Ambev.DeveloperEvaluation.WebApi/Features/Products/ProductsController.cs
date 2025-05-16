@@ -146,5 +146,45 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
             });
         }
 
+        /// <summary>
+        /// Retrieves a paginated list of products.
+        /// </summary>
+        /// <param name="page">Page number (default 1).</param>
+        /// <param name="size">Page size (default 10).</param>
+        /// <param name="order">Ordering string, e.g., "id desc, title asc".</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <returns>Paginated list of products.</returns>
+        [HttpGet]
+        [ProducesResponseType(typeof(PaginatedResponse<ListProductsResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ListProducts(
+        [FromQuery(Name = "_page")] int page = 1,
+        [FromQuery(Name = "_size")] int size = 10,
+        [FromQuery(Name = "_order")] string? order = null,
+        CancellationToken cancellationToken = default)
+        {
+            var request = new ListProductsRequest { Page = page, Size = size, Order = order };
+            var validator = new ListProductsRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<ListProductsCommand>(request);
+            var response = await _mediator.Send(command, cancellationToken);
+
+            var listResponse = _mapper.Map<List<ListProductsResponse>>(response);
+
+            var result = new PaginatedResponse<ListProductsResponse>
+            {
+                Data = listResponse,
+                TotalCount = response.TotalCount,
+                CurrentPage = response.CurrentPage,
+                TotalPages = response.TotalPages,
+                Success = true,
+            };
+
+            return Ok(result);
+        }
     }
 }
