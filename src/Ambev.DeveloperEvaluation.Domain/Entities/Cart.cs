@@ -161,11 +161,12 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         {
             ValidExistingCartItem(item);
 
-            QuantityItemsAllowedValid(item);
-
             var cartItemExisting = _cartItems.FirstOrDefault(p => p.ProductId == item.ProductId);
 
             _cartItems.Remove(cartItemExisting);
+
+            QuantityItemsAllowedValid(item);
+
             _cartItems.Add(item);
 
             CalculateTotalValue();
