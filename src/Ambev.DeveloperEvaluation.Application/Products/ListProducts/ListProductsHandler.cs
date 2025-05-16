@@ -2,13 +2,15 @@ using AutoMapper;
 using MediatR;
 using FluentValidation;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Application.Carts.ListCarts;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.ListProduct;
 
 /// <summary>
 /// Handler for processing ListProductCommand requests
 /// </summary>
-public class ListProductsHandler : IRequestHandler<ListProductsCommand, ListProductsResult>
+public class ListProductsHandler : IRequestHandler<ListProductsCommand, PaginatedList<ListProductsResult>>
 {
     private readonly IProductRepository _productRepository;
     private readonly IMapper _mapper;
@@ -33,7 +35,7 @@ public class ListProductsHandler : IRequestHandler<ListProductsCommand, ListProd
     /// <param name="request">The ListProduct command</param>
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>The product details if found</returns>
-    public async Task<ListProductsResult> Handle(ListProductsCommand request, CancellationToken cancellationToken)
+    public async Task<PaginatedList<ListProductsResult>> Handle(ListProductsCommand request, CancellationToken cancellationToken)
     {
         var validator = new ListProductsValidator();
         var validationResult = await validator.ValidateAsync(request, cancellationToken);
@@ -41,8 +43,17 @@ public class ListProductsHandler : IRequestHandler<ListProductsCommand, ListProd
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
 
-        var product = new List<ListProductsResult>();
+        var carts = await _productRepository.GetAllAsync(request.Page, request.Size, request.Order, cancellationToken);
 
-        return _mapper.Map<ListProductsResult>(product);
+        var cartResult = _mapper.Map<PaginatedResponse<ListProductsResult>>(carts);
+
+        var result = new PaginatedList<ListProductsResult>(
+            cartResult,
+            carts.TotalCount,
+            carts.CurrentPage,
+            carts.PageSize
+        );
+
+        return result;
     }
 }

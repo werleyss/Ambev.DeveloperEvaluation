@@ -3,13 +3,18 @@ using Ambev.DeveloperEvaluation.Domain.Common;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Ambev.DeveloperEvaluation.Application.Products.ListProduct;
+namespace Ambev.DeveloperEvaluation.Application.Products.ListCategory;
 
 /// <summary>
 /// Command for retrieving a paginated list of products
 /// </summary>
-public record ListProductsCommand : IRequest<PaginatedList<ListProductsResult>>
+public record ListCategoryCommand : IRequest<PaginatedList<ListCategoryResult>>
 {
+    /// <summary>
+    /// The category of the product listing to be retrieved
+    /// </summary>
+    public string Category { get; set; } = string.Empty;
+
     /// <summary>
     /// Page number for pagination
     /// </summary>
@@ -26,9 +31,9 @@ public record ListProductsCommand : IRequest<PaginatedList<ListProductsResult>>
     public string? Order { get; init; }
 
     /// <summary>
-    /// Initializes a new instance of ListProductsCommand
+    /// Initializes a new instance of ListCategorysCommand
     /// </summary>
-    public ListProductsCommand()
+    public ListCategoryCommand()
     {
     }
 }

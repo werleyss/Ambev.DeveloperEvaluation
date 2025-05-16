@@ -5,7 +5,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.ListProduct;
 /// <summary>
 /// API response model for ListProduct operation
 /// </summary>
-public class ListProductResponse
+public class ListProductsResponse
 {
     /// <summary>
     /// The unique identifier of the created product

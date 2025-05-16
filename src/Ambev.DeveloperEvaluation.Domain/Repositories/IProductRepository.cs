@@ -1,3 +1,4 @@
+using Ambev.DeveloperEvaluation.Domain.Common;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 
 namespace Ambev.DeveloperEvaluation.Domain.Repositories;
@@ -38,4 +39,26 @@ public interface IProductRepository
     /// <param name="cancellationToken">Cancellation token</param>
     /// <returns>True if the product was deleted, false if not found</returns>
     Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieve a list of all products
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The product if found, null otherwise</returns>
+    Task<PaginatedList<Product>> GetAllAsync(int page, int size, string? order, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieve a list of all products
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The product if found, null otherwise</returns>
+    Task<PaginatedList<Product>> GetByCategoryAsync(string category, int page, int size, string? order, CancellationToken cancellationToken = default);
+    
+    /// <summary>
+    /// Retrieve a list of all categories
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>The list of all categories</returns>
+    Task<List<string>> GetAllCategoryAsync(CancellationToken cancellationToken = default);
+    
 }
