@@ -85,12 +85,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
             var command = _mapper.Map<GetProductCommand>(request.Id);
             var response = await _mediator.Send(command, cancellationToken);
 
-            return Ok(new ApiResponseWithData<GetProductResponse>
-            {
-                Success = true,
-                Message = "Product retrieved successfully",
-                Data = _mapper.Map<GetProductResponse>(response)
-            });
+            return Ok(_mapper.Map<GetProductResponse>(response), "Product retrieved successfully");
         }
 
         /// <summary>

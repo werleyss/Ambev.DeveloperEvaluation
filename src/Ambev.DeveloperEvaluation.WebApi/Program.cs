@@ -68,7 +68,13 @@ public class Program
 
             app.UseBasicHealthChecks();
 
-            app.MapControllers();
+            app.MapControllers(); 
+            
+            using (var scope = app.Services.CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<DefaultContext>();
+                context.Database.Migrate();
+            }
 
             app.Run();
         }
