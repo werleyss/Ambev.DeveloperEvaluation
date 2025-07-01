@@ -23,3 +23,13 @@
 /tests/Ambev.DeveloperEvaluation.Integration/obj
 /tests/Ambev.DeveloperEvaluation.Unit/bin/Debug/net8.0
 /tests/Ambev.DeveloperEvaluation.Unit/obj
+/bin/Release
+/tests/Ambev.DeveloperEvaluation.Functional/bin/Release/net8.0
+/tests/Ambev.DeveloperEvaluation.Integration/bin/Release/net8.0
+/tests/Ambev.DeveloperEvaluation.Unit/bin/Release/net8.0
+/src/Ambev.DeveloperEvaluation.WebApi/bin/Release/net8.0
+/src/Ambev.DeveloperEvaluation.ORM/bin/Release/net8.0
+/src/Ambev.DeveloperEvaluation.IoC/bin/Release/net8.0
+/src/Ambev.DeveloperEvaluation.Domain/bin/Release/net8.0
+/src/Ambev.DeveloperEvaluation.Common/bin/Release/net8.0
+/src/Ambev.DeveloperEvaluation.Application/bin/Release/net8.0
