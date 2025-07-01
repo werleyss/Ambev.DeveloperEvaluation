@@ -39,7 +39,7 @@ namespace Ambev.DeveloperEvaluation.Integration.Carts
             };
 
             var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
-            var postResponse = await _httpClient.PostAsync("/api/v1/Carts", content);
+            var postResponse = await _httpClient.PostAsync("/api/Carts", content);
             postResponse.StatusCode.Should().Be(HttpStatusCode.Created);
 
             var body = await postResponse.Content.ReadAsStringAsync();
@@ -47,7 +47,7 @@ namespace Ambev.DeveloperEvaluation.Integration.Carts
             var createdCartId = createdCart!.Data.Id;
 
             // Act: 
-            var getResponse = await _httpClient.GetAsync($"/api/v1/Carts/{createdCartId}");
+            var getResponse = await _httpClient.GetAsync($"/api/Carts/{createdCartId}");
 
             // Assert
             getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -78,7 +78,7 @@ namespace Ambev.DeveloperEvaluation.Integration.Carts
             var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _httpClient.PostAsync("/api/v1/Carts", content);
+            var response = await _httpClient.PostAsync("/api/Carts", content);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -106,12 +106,12 @@ namespace Ambev.DeveloperEvaluation.Integration.Carts
             };
 
             var createContent = new StringContent(JsonConvert.SerializeObject(createPayload), Encoding.UTF8, "application/json");
-            var createResponse = await _httpClient.PostAsync("/api/v1/Carts", createContent);
+            var createResponse = await _httpClient.PostAsync("/api/Carts", createContent);
             var createBody = await createResponse.Content.ReadAsStringAsync();
             var created = JsonConvert.DeserializeObject<ApiResponseWithData<CreateCartResponse>>(createBody);
 
             // Act
-            var response = await _httpClient.DeleteAsync($"/api/v1/Carts/{created!.Data.Id}");
+            var response = await _httpClient.DeleteAsync($"/api/Carts/{created!.Data.Id}");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -131,7 +131,7 @@ namespace Ambev.DeveloperEvaluation.Integration.Carts
             };
 
             var createContent = new StringContent(JsonConvert.SerializeObject(createPayload), Encoding.UTF8, "application/json");
-            var createResponse = await _httpClient.PostAsync("/api/v1/Carts", createContent);
+            var createResponse = await _httpClient.PostAsync("/api/Carts", createContent);
             var createdBody = await createResponse.Content.ReadAsStringAsync();
             var created = JsonConvert.DeserializeObject<ApiResponseWithData<CreateCartResponse>>(createdBody);
 
@@ -145,7 +145,7 @@ namespace Ambev.DeveloperEvaluation.Integration.Carts
             };
 
             var updateContent = new StringContent(JsonConvert.SerializeObject(updatePayload), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync($"/api/v1/Carts/{updatePayload.id}", updateContent);
+            var response = await _httpClient.PutAsync($"/api/Carts/{updatePayload.id}", updateContent);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -158,7 +158,7 @@ namespace Ambev.DeveloperEvaluation.Integration.Carts
             var _httpClient = _factory.CreateClient();
 
             // Act
-            var response = await _httpClient.GetAsync("/api/v1/Carts?_page=1&_size=10");
+            var response = await _httpClient.GetAsync("/api/Carts?_page=1&_size=10");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);

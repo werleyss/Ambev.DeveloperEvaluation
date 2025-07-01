@@ -38,7 +38,7 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
             var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
 
             // Act
-            var response = await _httpClient.PostAsync("/api/v1/Carts", content);
+            var response = await _httpClient.PostAsync("/api/Carts", content);
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -58,7 +58,7 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
             var _httpClient = _factory.CreateClient();
 
             // Act
-            var response = await _httpClient.GetAsync("/api/v1/Carts");
+            var response = await _httpClient.GetAsync("/api/Carts");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -84,13 +84,13 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
                 products = new[] { new { productId = Guid.NewGuid(), quantity = 2 } }
             };
             var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
-            var createResponse = await client.PostAsync("/api/v1/Carts", content);
+            var createResponse = await client.PostAsync("/api/Carts", content);
             var createdCart = JsonConvert.DeserializeObject<ApiResponseWithData<CreateCartResponse>>(await createResponse.Content.ReadAsStringAsync());
 
             var cartId = createdCart!.Data.Id;
 
             // Act
-            var response = await client.GetAsync($"/api/v1/Carts/{cartId}");
+            var response = await client.GetAsync($"/api/Carts/{cartId}");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -115,7 +115,7 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
                 products = new[] { new { productId = Guid.NewGuid(), quantity = 1 } }
             };
             var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
-            var createResponse = await client.PostAsync("/api/v1/Carts", content);
+            var createResponse = await client.PostAsync("/api/Carts", content);
             var createdCart = JsonConvert.DeserializeObject<ApiResponseWithData<CreateCartResponse>>(await createResponse.Content.ReadAsStringAsync());
             var cartId = createdCart!.Data.Id;
                   
@@ -130,7 +130,7 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
             var updateContent = new StringContent(JsonConvert.SerializeObject(updatePayload), Encoding.UTF8, "application/json");
             
             // Act
-            var updateResponse = await client.PutAsync($"/api/v1/Carts/{cartId}", updateContent);
+            var updateResponse = await client.PutAsync($"/api/Carts/{cartId}", updateContent);
             
             // Assert
             updateResponse.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -149,12 +149,12 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
                 products = new[] { new { productId = Guid.NewGuid(), quantity = 1 } }
             };
             var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
-            var createResponse = await client.PostAsync("/api/v1/Carts", content);
+            var createResponse = await client.PostAsync("/api/Carts", content);
             var createdCart = JsonConvert.DeserializeObject<ApiResponseWithData<CreateCartResponse>>(await createResponse.Content.ReadAsStringAsync());
             var cartId = createdCart!.Data.Id;
 
             // Act
-            var deleteResponse = await client.DeleteAsync($"/api/v1/Carts/{cartId}");
+            var deleteResponse = await client.DeleteAsync($"/api/Carts/{cartId}");
 
             // Assert
             deleteResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
