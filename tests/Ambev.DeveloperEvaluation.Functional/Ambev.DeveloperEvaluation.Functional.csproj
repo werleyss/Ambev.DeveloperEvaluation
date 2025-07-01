@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="8.4.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.17" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
@@ -22,10 +24,19 @@
     <PackageReference Include="NSubstitute" Version="5.1.0" />
   </ItemGroup>
 
-  <ItemGroup>
+<Target Name="CopyDepsJsonFiles" AfterTargets="Build">
+	<ItemGroup>
+		<DepsJsonFiles Include="..\..\src\Ambev.DeveloperEvaluation.WebApi\bin\Debug\net8.0\Ambev.DeveloperEvaluation.WebApi.deps.json" />
+	</ItemGroup>
+	<Copy SourceFiles="@(DepsJsonFiles)" DestinationFolder="$(OutDir)" />
+</Target>
+
+
+	<ItemGroup>
     <ProjectReference Include="..\..\src\Ambev.DeveloperEvaluation.Domain\Ambev.DeveloperEvaluation.Domain.csproj" />
     <ProjectReference Include="..\..\src\Ambev.DeveloperEvaluation.Application\Ambev.DeveloperEvaluation.Application.csproj" />
     <ProjectReference Include="..\..\src\Ambev.DeveloperEvaluation.ORM\Ambev.DeveloperEvaluation.ORM.csproj" />
+    <ProjectReference Include="..\..\src\Ambev.DeveloperEvaluation.WebApi\Ambev.DeveloperEvaluation.WebApi.csproj" />
   </ItemGroup>
 
 </Project>
