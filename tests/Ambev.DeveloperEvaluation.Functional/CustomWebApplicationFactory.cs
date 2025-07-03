@@ -1,9 +1,11 @@
-﻿using Ambev.DeveloperEvaluation.ORM;
+﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Enums;
+using Ambev.DeveloperEvaluation.ORM;
+using Ambev.DeveloperEvaluation.WebApi;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 
 namespace Ambev.DeveloperEvaluation.Functional
 {
@@ -32,9 +34,32 @@ namespace Ambev.DeveloperEvaluation.Functional
 
                 using (var scope = sp.CreateScope())
                 {
-                    var db = scope.ServiceProvider.GetRequiredService<DefaultContext>();
-                    db.Database.EnsureDeleted();
+                    var db = scope.ServiceProvider.GetRequiredService<DefaultContext>(); 
                     db.Database.EnsureCreated();
+
+                    db.Products.AddRange(
+                        new Product
+                        {
+                            Id = Guid.Parse("4af0b2d8-230b-41de-a7f4-45b991ad6e4b"),
+                            Description = "Product 1",
+                            Price = 10.0m
+                        }
+                    );
+
+                    db.Users.AddRange(
+                        new User
+                        {
+                            Id = Guid.Parse("be5ce2c2-c320-41d5-ae59-eb3f66d1b656"),
+                            Username = "User 1",
+                            Password = "@Evaluation123",
+                            Phone = "6399999-0000",
+                            Email = "email1@test.com",
+                            Status = UserStatus.Active,
+                            Role = UserRole.Admin
+                        }
+                    );
+
+                    db.SaveChanges();
                 }
             });
         }
