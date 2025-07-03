@@ -10,6 +10,7 @@ using Xunit;
 
 namespace Ambev.DeveloperEvaluation.Functional.Carts
 {
+    [TestCaseOrderer("Ambev.DeveloperEvaluation.Functional.PriorityOrderer", "Ambev.DeveloperEvaluation.Functional")]
     public class CartFunctionalTests : IClassFixture<CustomWebApplicationFactory>
     {
         private readonly CustomWebApplicationFactory _factory;
@@ -19,39 +20,7 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
             _factory = factory;
         }
 
-        [Fact]
-        public async Task CreateCart_ValidRequest_ReturnsCreated()
-        {
-            // Arrange
-            var _httpClient = _factory.CreateClient();  
-
-            var payload = new
-            {
-                userId = Guid.NewGuid(),
-                date = DateTime.UtcNow,
-                products = new[]
-                {
-                new { productId = Guid.NewGuid(), quantity = 2 }
-            }
-            };
-
-            var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
-
-            // Act
-            var response = await _httpClient.PostAsync("/api/Carts", content);
-
-            // Assert
-            response.StatusCode.Should().Be(HttpStatusCode.Created);
-
-            var responseBody = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<ApiResponseWithData<CreateCartResponse>>(responseBody);
-
-            result.Should().NotBeNull();
-            result!.Success.Should().BeTrue();
-            result.Data.Should().NotBeNull();
-        }
-
-        [Fact]
+        [Fact, TestPriority(1)]
         public async Task ListCarts_ReturnsEmptyListInitially()
         {
             // Arrange
@@ -71,7 +40,39 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
             result.Data.Should().BeEmpty();
         }
 
-        [Fact]
+        [Fact, TestPriority(2)]
+        public async Task CreateCart_ValidRequest_ReturnsCreated()
+        {
+            // Arrange
+            var _httpClient = _factory.CreateClient();  
+
+            var payload = new
+            {
+                userId = Guid.Parse("be5ce2c2-c320-41d5-ae59-eb3f66d1b656"),
+                date = DateTime.UtcNow,
+                products = new[]
+                {
+                new { productId = Guid.Parse("4af0b2d8-230b-41de-a7f4-45b991ad6e4b"), quantity = 2 }
+            }
+            };
+
+            var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
+
+            // Act
+            var response = await _httpClient.PostAsync("/api/Carts", content);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Created);
+
+            var responseBody = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<ApiResponseWithData<CreateCartResponse>>(responseBody);
+
+            result.Should().NotBeNull();
+            result!.Success.Should().BeTrue();
+            result.Data.Should().NotBeNull();
+        }
+
+        [Fact, TestPriority(3)]
         public async Task GetCart_ValidId_ReturnsCart()
         {
             // Arrange
@@ -79,9 +80,9 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
 
             var payload = new
             {
-                userId = Guid.NewGuid(),
+                userId = Guid.Parse("be5ce2c2-c320-41d5-ae59-eb3f66d1b656"),
                 date = DateTime.UtcNow,
-                products = new[] { new { productId = Guid.NewGuid(), quantity = 2 } }
+                products = new[] { new { productId = Guid.Parse("4af0b2d8-230b-41de-a7f4-45b991ad6e4b"), quantity = 2 } }
             };
             var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
             var createResponse = await client.PostAsync("/api/Carts", content);
@@ -102,7 +103,7 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
             result!.Data.Id.Should().Be(cartId);
         }
 
-        [Fact]
+        [Fact, TestPriority(4)]
         public async Task UpdateCart_ValidData_ReturnsOk()
         {
             // Arrange
@@ -110,9 +111,9 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
 
             var payload = new
             {
-                userId = Guid.NewGuid(),
+                userId = Guid.Parse("be5ce2c2-c320-41d5-ae59-eb3f66d1b656"),
                 date = DateTime.UtcNow,
-                products = new[] { new { productId = Guid.NewGuid(), quantity = 1 } }
+                products = new[] { new { productId = Guid.Parse("4af0b2d8-230b-41de-a7f4-45b991ad6e4b"), quantity = 1 } }
             };
             var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
             var createResponse = await client.PostAsync("/api/Carts", content);
@@ -124,7 +125,7 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
                 id = cartId,
                 userId = payload.userId,
                 date = DateTime.UtcNow,
-                products = new[] { new { productId = Guid.NewGuid(), quantity = 3 } }
+                products = new[] { new { productId = Guid.Parse("4af0b2d8-230b-41de-a7f4-45b991ad6e4b"), quantity = 3 } }
             };
 
             var updateContent = new StringContent(JsonConvert.SerializeObject(updatePayload), Encoding.UTF8, "application/json");
@@ -133,21 +134,25 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
             var updateResponse = await client.PutAsync($"/api/Carts/{cartId}", updateContent);
             
             // Assert
-            updateResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+            updateResponse.StatusCode.Should().Be(HttpStatusCode.Created);
         }
 
-        [Fact]
-        public async Task DeleteCart_ValidId_ReturnsNoContent()
+        [Fact, TestPriority(5)]
+        public async Task DeleteCart_ValidId_ReturnsOkWithSuccessMessage()
         {
             // Arrange
             var client = _factory.CreateClient();
 
             var payload = new
             {
-                userId = Guid.NewGuid(),
+                userId = Guid.Parse("be5ce2c2-c320-41d5-ae59-eb3f66d1b656"),
                 date = DateTime.UtcNow,
-                products = new[] { new { productId = Guid.NewGuid(), quantity = 1 } }
+                products = new[]
+                {
+                    new { productId = Guid.Parse("4af0b2d8-230b-41de-a7f4-45b991ad6e4b"), quantity = 1 }
+                }
             };
+
             var content = new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, "application/json");
             var createResponse = await client.PostAsync("/api/Carts", content);
             var createdCart = JsonConvert.DeserializeObject<ApiResponseWithData<CreateCartResponse>>(await createResponse.Content.ReadAsStringAsync());
@@ -157,7 +162,14 @@ namespace Ambev.DeveloperEvaluation.Functional.Carts
             var deleteResponse = await client.DeleteAsync($"/api/Carts/{cartId}");
 
             // Assert
-            deleteResponse.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            var responseBody = await deleteResponse.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<ApiResponse>(responseBody);
+
+            result.Should().NotBeNull();
+            result!.Success.Should().BeTrue();
+            result.Message.Should().Be("Cart deleted successfully");
         }
     }
 }
